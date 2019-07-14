@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { ThemeProvider } from "@material-ui/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { blue, indigo } from "@material-ui/core/colors";
+import Routes from "./booking/routes/Routes";
+import BookingContext from "./booking/context/BookingContext";
+import { BookingService } from "./booking/service/BookingService";
+import { BookingClient } from "./booking/service/BookingClient";
+
+const theme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: blue[900]
+    },
+    primary: {
+      main: indigo[700]
+    }
+  },
+  typography: {
+    fontFamily: ['"Lato"', "sans-serif"].join(",")
+  }
+});
+
+// adding inject dependecy with context
+//const client = new BookingClient("https://challenge.smove.sg");
+const client = new BookingClient("http://localhost:5000");
+const bookingService = new BookingService(client);
+const bookingContext = {
+  service: bookingService
+};
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BookingContext.Provider value={bookingContext!}>
+        <ThemeProvider theme={theme}>
+          <Routes />
+        </ThemeProvider>
+      </BookingContext.Provider>
     </div>
   );
-}
+};
 
 export default App;
