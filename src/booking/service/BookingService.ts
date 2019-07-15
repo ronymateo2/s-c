@@ -1,8 +1,7 @@
-import { Observable, Subject, from, timer, BehaviorSubject } from "rxjs";
-import { switchMap, tap, map, distinctUntilChanged } from "rxjs/operators";
+import { from, BehaviorSubject } from "rxjs";
+import { map, distinctUntilChanged } from "rxjs/operators";
 
 import { BookingClient } from "./BookingClient";
-import { BookingModel } from "../model/BookingModel";
 import { BookingState } from "../model/BookingState";
 
 export class BookingService {
@@ -23,6 +22,7 @@ export class BookingService {
   loading$ = this.state$.pipe(map(state => state.loading));
 
   constructor(private bookingClient: BookingClient) {
+    this.updateState({ ...this._state, bookings: [], loading: true });
     from(this.bookingClient.getBookings()).subscribe(bookings => {
       this.updateState({ ...this._state, bookings, loading: false });
     });
