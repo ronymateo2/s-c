@@ -55,7 +55,7 @@ const ImpossibleRoute = withRouter(() => {
   const classes = useStyles();
   const [bookings, loading] = useBookingService(impossibleRoutes);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, bookings.length - page * rowsPerPage);
 
@@ -89,7 +89,7 @@ const ImpossibleRoute = withRouter(() => {
             <Grid item xs={12}>
               <SectionHeader
                 title="Imposible Routes"
-                subtitle="Assuming max speed 90km"
+                subtitle="Assuming max speed 90km, those cars will never make it at the end booking time"
               />
               <div>
                 {loading && <Loading />}
