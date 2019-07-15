@@ -70,7 +70,7 @@ const Booking = withRouter(() => {
             <Grid item xs={12}>
               <SectionHeader
                 title="Drop Off and Pikup Cluster Map"
-                subtitle="Number of drops off and pickup"
+                subtitle="The first map is the number of drops off and the another the nunbers of pickups"
               />
               {loading && <Loading />}
               {!loading && (
