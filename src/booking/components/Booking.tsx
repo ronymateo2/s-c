@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createStyles, Grid, makeStyles } from "@material-ui/core";
 import { Marker } from "react-google-maps";
 
 import TopBar from "../../shared/components/TopBar";
 import SectionHeader from "../../shared/components/SectionHeader";
-import BookingContext from "../context/BookingContext";
 
 import { BookingModel } from "../model/BookingModel";
 import { BookingMap } from "./BookingMap";

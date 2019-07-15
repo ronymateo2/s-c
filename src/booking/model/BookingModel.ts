@@ -24,20 +24,6 @@ export interface BookingModel {
   };
 }
 
-export const getLimitsDropOffDate = (
-  bookings: BookingModel[]
-): [number, number] => {
-  if (bookings.length === 0) return [0, 0];
-  const sorted = bookings.sort((a, b) => a.book_end - b.book_end);
-  return [sorted[0].book_end, sorted[sorted.length - 1].book_end];
-};
-
-export function getLimitsPickUp(bookings: BookingModel[]) {
-  if (bookings.length === 0) return [0, 0];
-  const sorted = bookings.sort((a, b) => a.book_start - b.book_start);
-  return [sorted[0].book_start, sorted[sorted.length - 1].book_start];
-}
-
 function getDistance(
   lat1: number,
   lon1: number,
