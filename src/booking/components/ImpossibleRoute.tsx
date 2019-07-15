@@ -25,6 +25,8 @@ import {
   isImpossibleRoute,
   getBookingDistance
 } from "../model/BookingModel";
+import { useBookingService } from "./useBookingService";
+import { Observable } from "rxjs";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -41,29 +43,16 @@ const useStyles = makeStyles(theme =>
   })
 );
 
+const impossibleRoutes = (bookings$: Observable<BookingModel[]>) => {
+  return bookings$.pipe(
+    map(bookings => bookings.filter(b => isImpossibleRoute(b)))
+  );
+};
+
 const ImpossibleRoute = withRouter(() => {
   const classes = useStyles();
-  const bookingService = useContext(BookingContext)!.service;
-  const [bookings, setBookings] = useState([] as BookingModel[]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const sub = bookingService.bookings$
-      .pipe(map(bookings => bookings.filter(b => isImpossibleRoute(b))))
-      .subscribe(bookings => {
-        setBookings(bookings);
-      });
-    return () => {
-      sub.unsubscribe();
-    };
-  }, [bookingService.bookings$]);
-
-  useEffect(() => {
-    const sub = bookingService.loading$.subscribe(setLoading);
-    return () => {
-      sub.unsubscribe();
-    };
-  }, [bookingService.loading$]);
+  const [bookings, loading] = useBookingService(impossibleRoutes);
 
   return (
     <React.Fragment>

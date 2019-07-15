@@ -11,6 +11,7 @@ import { BookingModel } from "../model/BookingModel";
 import { BookingMap } from "./BookingMap";
 import { withRouter } from "react-router";
 import Loading from "../../shared/components/Loading";
+import { useBookingService } from "./useBookingService";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -32,25 +33,7 @@ const useStyles = makeStyles(theme =>
 
 const Booking = withRouter(() => {
   const classes = useStyles();
-  const bookingService = useContext(BookingContext)!.service;
-  const [bookings, setBookings] = useState([] as BookingModel[]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const sub = bookingService.bookings$.subscribe(bookings => {
-      setBookings(bookings);
-    });
-    return () => {
-      sub.unsubscribe();
-    };
-  }, [bookingService.bookings$]);
-
-  useEffect(() => {
-    const sub = bookingService.loading$.subscribe(setLoading);
-    return () => {
-      sub.unsubscribe();
-    };
-  }, [bookingService.loading$]);
+  const [bookings, loading] = useBookingService();
 
   const dropOffMarkers = bookings.map((marker: BookingModel, index: number) => (
     <Marker
